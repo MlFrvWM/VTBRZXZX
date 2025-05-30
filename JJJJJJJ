@@ -5,7 +5,24 @@ local VirtualUser = game:GetService("VirtualUser")
 local Player = Players.LocalPlayer 
  
 --// SETTING: ALLOWED ID 
-local allowedUserId = 4095731659 -- Replace with your actual UserId 
+local allowedUserId = return {
+    5846868098,
+    7458885700,
+    7458668559,
+    7486897445,
+    7486611144,
+    4597876917,
+    7414892989,
+    7415249400,
+    6095967847,
+    4643819757,
+    3791523667,
+    5632207692,
+    7886971298,
+    8208994815,
+    8227490728,
+    4049138940,
+} -- Replace with your actual UserId 
  
 --// ID VALIDATION 
 if Player.UserId ~= allowedUserId then 
