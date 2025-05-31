@@ -1,27 +1,27 @@
-local Players = game:GetService("Players") 
-local VirtualUser = game:GetService("VirtualUser") 
- 
---// LOCAL PLAYER 
-local Player = Players.LocalPlayer 
- 
---// SETTING: ALLOWED ID 
-local allowedUserId = { 
-    5846868098, 
-    7458885700, 
-    7458668559, 
-    7486897445, 
-    7486611144, 
-    4597876917, 
-    7414892989, 
-    7415249400, 
-    6095967847, 
-    4643819757, 
-    3791523667, 
-    5632207692, 
-    7886971298, 
-    8208994815, 
-    8227490728, 
-    4049138940, 
+local Players = game:GetService("Players")
+local VirtualUser = game:GetService("VirtualUser")
+
+--// LOCAL PLAYER
+local Player = Players.LocalPlayer
+
+--// SETTING: ALLOWED ID
+local allowedUserId = {
+    5846868098,
+    7458885700,
+    7458668559,
+    7486897445,
+    7486611144,
+    4597876917,
+    7414892989,
+    7415249400,
+    6095967847,
+    4643819757,
+    3791523667,
+    5632207692,
+    7886971298,
+    8208994815,
+    8227490728,
+    4049138940,
 }
 
 local function isAllowed(userId)
@@ -38,23 +38,25 @@ if not isAllowed(Player.UserId) then
     Player:Kick("Você não tem permissão para usar esse script.")
     return
 end
- 
---// ID VALIDATION 
-if Player.UserId ~= allowedUserId then 
-    warn("Access is denied. This script cannot be run by you.") 
-    Player:Kick("You do not have permission to run this script.") 
-    return 
-end 
- 
-local libraryContent = game:HttpGet("https://raw.githubusercontent.com/memejames/elerium-v2-ui-library/main/Library", true)
-local success, loadedLibrary = pcall(loadstring, libraryContent)
 
-if success and type(loadedLibrary) == "function" then
-    local library = loadedLibrary()
-    -- Resto do seu script
+
+local libraryContent = game:HttpGet("https://raw.githubusercontent.com/memejames/elerium-v2-ui-library/main/Library", true)
+
+local loadedFunc, loadError = loadstring(libraryContent)
+
+if loadedFunc then
+    local success, result = pcall(loadedFunc)
+    if success then
+        local library = result
+        
+    else
+        warn("Erro ao executar a função carregada:", result)
+        Player:Kick("O script não pôde executar a biblioteca.")
+        return
+    end
 else
-    warn("Erro ao carregar a biblioteca ou o loadstring retornou algo inesperado:", loadedLibrary)
-    Player:Kick("O script não pôde carregar a biblioteca necessária. Tente novamente mais tarde.")
+    warn("Erro ao compilar a biblioteca:", loadError)
+    Player:Kick("O script não pode compilar a biblioteca.")
     return
 end
 
